@@ -1,9 +1,10 @@
 {
 "cleanUrls": true,
   "crons": [
-    { "path": "/api/refresh", "schedule": "*/15 * * * *" }
+    { "path": "/api/refresh" }
   ],
     "rewrites": [
     { "source": "/", "destination": "/index.html" }
   ]
 }
+
