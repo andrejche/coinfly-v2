@@ -1,0 +1,22 @@
+{
+  "name": "coinfly",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^2.14.0",
+    "@vercel/blob": "^2.2.0",
+    "better-sqlite3": "^12.6.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^4.22.1",
+    "express-oauth2-jwt-bearer": "^1.7.4"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

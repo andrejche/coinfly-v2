@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Lost in Space</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .overlay {
+            background: rgba(2, 6, 23, 0.85);
+        }
+
+        .glitch {
+            position: relative;
+            color: #818cf8;
+            font-weight: 900;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: "404";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .glitch::before {
+            animation: glitchTop 1.2s infinite linear alternate-reverse;
+            color: #f43f5e;
+        }
+
+        .glitch::after {
+            animation: glitchBottom 1.4s infinite linear alternate-reverse;
+            color: #22d3ee;
+        }
+
+        @keyframes glitchTop {
+            0% {
+                clip-path: inset(0 0 80% 0);
+                transform: translate(-3px, -2px);
+            }
+
+            50% {
+                clip-path: inset(0 0 60% 0);
+                transform: translate(3px, 2px);
+            }
+
+            100% {
+                clip-path: inset(0 0 75% 0);
+                transform: translate(-2px, 1px);
+            }
+        }
+
+        @keyframes glitchBottom {
+            0% {
+                clip-path: inset(70% 0 0 0);
+                transform: translate(2px, 2px);
+            }
+
+            50% {
+                clip-path: inset(60% 0 0 0);
+                transform: translate(-2px, -1px);
+            }
+
+            100% {
+                clip-path: inset(65% 0 0 0);
+                transform: translate(3px, 1px);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center overflow-hidden">
+    <div class="absolute w-[600px] h-[600px] bg-indigo-600/20 blur-3xl rounded-full"></div>
+    <div class="relative text-center px-6">
+        <h1 class="glitch text-7xl md:text-9xl mt-4 tracking-tight"> 404 </h1>
+        <p class="mt-6 text-xl text-slate-300"> This page vanished into the blockchain void. </p>
+        <p class="mt-2 text-sm text-slate-400"> It might have been liquidated. </p> <a href="/"
+            class="mt-8 inline-block px-8 py-3 bg-indigo-600 hover:bg-indigo-700 transition rounded-2xl font-semibold shadow-lg shadow-indigo-500/30">
+            Go back home </a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoinFly</title>
+  <link rel="icon" href="img/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .marquee {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 65s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-slate-100 bg-slate-950"
+  style="background-image:url('img/bg.png'); background-size:cover; background-position:center; background-attachment:fixed;">
+  <div class="fixed inset-0 -z-10 bg-slate-950/80"></div>
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/55 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3"> <a href="/" class="flex items-center gap-2">
+        <img
+          src="img/logo.png"
+          alt="Logo"
+          class="w-10 h-10 rounded-2xl object-contain"
+        />
+        <div class="leading-tight">
+          <div class="font-extrabold tracking-tight text-lg">CoinFly</div>
+          <div class="text-xs text-slate-400 -mt-1">
+            <span id="current-time"></span>
+          </div>
+    </div>
+      </a>
+      <div class="flex-1 hidden md:block">
+        <div class="relative"> <input id="search"
+            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 pl-10 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Search coins…" /> <span
+            class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔎</span> </div>
+      </div>
+      <nav class="ml-auto flex items-center gap-2 text-sm"> 
+        <a href="/" class="px-3 py-2 rounded-xl bg-white/10 font-semibold">Dashboard</a> 
+        <a href="/login"
+        class="px-4 py-2 rounded-xl 
+                bg-indigo-600 hover:bg-indigo-700 
+                text-white font-semibold 
+                transition-all duration-200 
+                shadow-lg shadow-indigo-600/30">
+        Login
+      </a>
+        <button id="searchToggle" class="md:hidden px-3 py-2 rounded-xl hover:bg-white/10 text-xl" type="button" aria-label="Search" title="Search">🔍</button> </nav>
+    </div>
+    <div id="mobileSearchWrap" class="md:hidden hidden border-t border-white/10 bg-slate-950/35">
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <div class="relative"> <input id="searchMobile"
+            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 pl-10 text-sm outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Search coins…" /> <span
+            class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔎</span> </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 bg-slate-950/35">
+      <div class="max-w-7xl mx-auto px-4 py-2">
+        <div class="marquee">
+          <div id="tickerTrack" class="marquee-track gap-3"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-7xl mx-auto px-4">
+    <section id="newsSection" class="hidden">
+      <div class="flex items-end justify-between gap-3">
+        <div>
+          <div id="newsStatus" class="text-xs text-slate-500 mt-2">—</div>
+        </div>
+      </div>
+      <div id="newsWrap" class="mt-4"></div>
+    </section>
+    <section class="grid lg:grid-cols-12 gap-6 items-stretch mt-10">
+      <div class="lg:col-span-7">
+        <div
+          class="h-full rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_10px_40px_rgba(0,0,0,0.35)] flex flex-col">
+          <h1 class="text-3xl md:text-4xl font-black tracking-tight">Market snapshot</h1>
+          <p class="mt-3 text-slate-300 max-w-2xl leading-relaxed text-lg"> <span
+              class="font-semibold text-indigo-200">⚡AI Overview:</span> <span id="aiOverviewText"></span> </p>
+          <div class="mt-3 flex flex-wrap gap-2"> <span id="aiTag"
+              class="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-200">—</span> <span
+              id="aiConfidence"
+              class="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-300">AI confidence:
+              —</span> <span id="aiTrend"
+              class="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-slate-300">—</span> </div>
+          <div class="mt-auto pt-5 flex flex-wrap gap-2"> <span id="lastUpdated"
+              class="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300">Updated:
+              —</span> <span
+              class="text-xs px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-400/30 text-indigo-200">Cache:
+              15 min</span> <span
+              class="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300">Source:
+              CoinGecko & CryptoCompare</span> </div>
+        </div>
+      </div>
+      <div class="lg:col-span-5 grid sm:grid-cols-2 lg:grid-cols-1 gap-3">
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+          <div class="text-xs text-slate-400">Bitcoin</div>
+          <div class="mt-1 flex items-center justify-between">
+            <div class="font-semibold">BTC</div>
+            <div id="btc-price" class="font-black text-2xl">—</div>
+          </div>
+          <div id="btc-change" class="text-sm mt-1 text-slate-400">—</div>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+          <div class="text-xs text-slate-400">Ethereum</div>
+          <div class="mt-1 flex items-center justify-between">
+            <div class="font-semibold">ETH</div>
+            <div id="eth-price" class="font-black text-2xl">—</div>
+          </div>
+          <div id="eth-change" class="text-sm mt-1 text-slate-400">—</div>
+        </div>
+      </div>
+    </section>
+    <section class="mt-10">
+      <div class="flex items-end justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-extrabold">Market list</h2>
+          <p class="text-xs text-slate-400 mt-1">Mini charts in rows, big chart in View.</p>
+        </div>
+      </div>
+      <div class="mt-4 overflow-hidden rounded-3xl border border-white/10 bg-white/5 hidden md:block">
+        <div class="grid grid-cols-12 px-4 py-3 text-xs font-semibold text-slate-400 border-b border-white/10">
+          <div class="col-span-1">#</div>
+          <div class="col-span-4">Coin</div>
+          <div class="col-span-3 text-right">Price</div>
+          <div class="col-span-2 text-right">24h</div>
+          <div class="col-span-1 text-right">7d</div>
+          <div class="col-span-1 text-right">Action</div>
+        </div>
+        <div id="marketRows" class="divide-y divide-white/10"></div>
+      </div>
+      <div id="marketCards" class="md:hidden mt-4 space-y-3"></div>
+    </section>
+    <section class="mt-12">
+      <div class="flex items-end justify-between gap-3">
+        <div>
+          <h3 class="text-lg font-extrabold">More news</h3>
+          <p class="text-xs text-slate-400 mt-1">More headlines you may like.</p>
+        </div> <a href="allnews.html" class="text-sm font-semibold text-indigo-200 hover:underline">See all →</a>
+      </div>
+      <div id="moreNewsWrap" class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+    <section class="mt-12">
+      <div>
+        <h3 class="text-lg font-extrabold">Your watchlist</h3>
+        <p class="text-xs text-slate-400 mt-1">Star coins to pin them here.</p>
+      </div>
+      <div id="watchlistWrap" class="mt-4"></div>
+    </section>
+    <section class="mt-12">
+      <div>
+        <h3 class="text-lg font-extrabold">Learn crypto</h3>
+        <p class="text-xs text-slate-400 mt-1">Beginner videos (YouTube).</p>
+      </div>
+      <div id="learnCrypto" class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+    <footer class="mt-14 py-10 text-center text-xs text-slate-500"> © <span id="year"></span> CoinFly </footer>
+  </main>
+  <div id="coinModal" class="fixed inset-0 z-[999] hidden">
+    <div id="coinModalOverlay" class="absolute inset-0 bg-black/60"></div>
+    <div class="relative mx-auto mt-20 w-[94%] max-w-2xl rounded-3xl bg-slate-950 border border-white/10 shadow-2xl">
+      <div class="flex items-start justify-between p-5 border-b border-white/10">
+        <div class="flex items-center gap-3"> <img id="modalIcon" class="w-10 h-10" alt="coin icon" />
+          <div>
+            <div id="modalName" class="font-extrabold text-lg">—</div>
+            <div id="modalSymbol" class="text-xs text-slate-400">—</div>
+          </div>
+        </div> <button id="coinModalClose" class="px-3 py-1.5 rounded-xl hover:bg-white/10 text-slate-200">✕</button>
+      </div>
+      <div class="p-5 grid md:grid-cols-2 gap-4">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <div class="text-xs text-slate-400">Price (USD)</div>
+          <div id="modalPrice" class="text-2xl font-black mt-1">—</div>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <div class="text-xs text-slate-400">24h Change</div>
+          <div id="modalChange" class="text-2xl font-black mt-1">—</div>
+        </div>
+        <div class="md:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-4">
+          <div class="flex items-center justify-between">
+            <div class="text-xs text-slate-400">7-day chart</div>
+            <div id="modalUpdated" class="text-xs text-slate-400">—</div>
+          </div>
+          <div id="modalChart"
+            class="mt-3 relative w-full h-[220px] sm:h-[260px] overflow-hidden rounded-2xl border border-white/10 bg-black/20 touch-none">
+            <div id="chartTip"
+              class="pointer-events-none absolute hidden z-10 px-2 py-1 rounded-lg text-xs bg-black/70 border border-white/10 text-slate-100">
+              —</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-5 pt-0 flex justify-end gap-2"> <button id="modalCopy"
+          class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 font-semibold text-sm">Copy price</button> <button
+          id="modalOk"
+          class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm">Done</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
